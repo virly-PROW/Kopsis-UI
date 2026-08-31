@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'barang_card.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,14 +28,14 @@ class MyApp extends StatelessWidget {
       'kategori': 'ATK',
       'harga_anggota': 3000,
       'harga_umum': 3500,
-      'stok': 40,
+      'stok': 7,
     },
     {
       'nama': 'Pensil',
       'kategori': 'ATK',
       'harga_anggota': 1000,
       'harga_umum': 1500,
-      'stok': 50,
+      'stok': 90,
     },
     {
       'nama': 'Penghapus',
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
       'kategori': 'Makanan',
       'harga_anggota': 2000,
       'harga_umum': 2500,
-      'stok': 20,
+      'stok': 0,
     },
     {
       'nama': 'Air Mineral',
@@ -69,14 +70,14 @@ class MyApp extends StatelessWidget {
       'kategori': 'ATK',
       'harga_anggota': 2000,
       'harga_umum': 2500,
-      'stok': 10,
+      'stok': 0,
     },
     {
       'nama': 'Snack',
       'kategori': 'Makanan',
       'harga_anggota': 3000,
       'harga_umum': 3500,
-      'stok': 30,
+      'stok': 2,
     },
     {
       'nama': 'Teh Botol',
@@ -95,22 +96,22 @@ class MyApp extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
+    final barangTersedia = daftarBarang
+        .where((barang) => barang['stok'] > 0)
+        .toList();
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('Koperasi Sekolah')),
         body: ListView.builder(
-          itemCount: daftarBarang.length,
+          itemCount: barangTersedia.length,
           itemBuilder: (context, index) {
-            final barang = daftarBarang[index];
-            return Card(
-              child: ListTile(
-                leading: const Icon(Icons.inventory_2),
-                title: Text(barang['nama']),
-                subtitle: Text(
-                  'Anggota Rp' + barang['harga_anggota'].toString(),
-                ),
-                trailing: Text('Stok: ' + barang['stok'].toString()),
-              ),
+            final barang = barangTersedia[index];
+            return BarangCard(
+              nama: barang['nama'],
+              hargaAnggota: barang['harga_anggota'],
+              stok: barang['stok'],
+              kategori: barang['kategori'],
+              sorot: barang['stok'] < 10, // sorot jika stok kurang dari 10
             );
           },
         ),
