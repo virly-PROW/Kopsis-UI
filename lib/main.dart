@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
       'kategori': 'Makanan',
       'harga_anggota': 2000,
       'harga_umum': 2500,
-      'stok': 0,
+      'stok': 9,
     },
     {
       'nama': 'Air Mineral',
@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
       'kategori': 'ATK',
       'harga_anggota': 2000,
       'harga_umum': 2500,
-      'stok': 0,
+      'stok': 16,
     },
     {
       'nama': 'Snack',
