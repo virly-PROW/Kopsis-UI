@@ -3,7 +3,7 @@ import 'barang_card.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   MyApp({super.key});
   int stok = 40;
   String kategori = "ATK";
@@ -94,26 +94,71 @@ class MyApp extends StatelessWidget {
       'stok': 35,
     },
   ];
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late TextEditingController _controller;
+  String kataCari = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final barangTersedia = daftarBarang
-        .where((barang) => barang['stok'] > 0)
+    final hasilCari = widget.daftarBarang
+        .where(
+          (barang) =>
+              barang['stok'] > 0 &&
+              barang['nama'].toString().toLowerCase().contains(kataCari),
+        )
         .toList();
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('Koperasi Sekolah')),
-        body: ListView.builder(
-          itemCount: barangTersedia.length,
-          itemBuilder: (context, index) {
-            final barang = barangTersedia[index];
-            return BarangCard(
-              nama: barang['nama'],
-              hargaAnggota: barang['harga_anggota'],
-              stok: barang['stok'],
-              kategori: barang['kategori'],
-              sorot: barang['stok'] < 10, // sorot jika stok kurang dari 10
-            );
-          },
+        body: Column(
+          children: [
+            TextField(
+              controller: _controller,
+              decoration: const InputDecoration(
+                labelText: 'Cari Barang',
+                prefixIcon: Icon(Icons.search),
+              ),
+              onChanged: (nilai) {
+                setState(() {
+                  kataCari = nilai.toLowerCase();
+                });
+              },
+
+              //expanded
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: hasilCari.length,
+                itemBuilder: (context, index) {
+                  final barang = hasilCari[index];
+                  return BarangCard(
+                    nama: barang['nama'],
+                    hargaAnggota: barang['harga_anggota'],
+                    stok: barang['stok'],
+                    kategori: barang['kategori'],
+                    sorot: barang['stok'] < 10,
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ), // scaffold
     ); // material app
