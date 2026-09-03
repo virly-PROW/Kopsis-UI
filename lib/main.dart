@@ -129,6 +129,10 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(title: const Text('Koperasi Sekolah')),
         body: Column(
           children: [
+            Text(
+              'lebar layar: ' +
+                  MediaQuery.of(context).size.width.toStringAsFixed(0),
+            ),
             TextField(
               controller: _controller,
               decoration: const InputDecoration(
@@ -144,16 +148,31 @@ class _MyAppState extends State<MyApp> {
               //expanded
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: hasilCari.length,
-                itemBuilder: (context, index) {
-                  final barang = hasilCari[index];
-                  return BarangCard(
-                    nama: barang['nama'],
-                    hargaAnggota: barang['harga_anggota'],
-                    stok: barang['stok'],
-                    kategori: barang['kategori'],
-                    sorot: barang['stok'] < 10,
+              child: LayoutBuilder(
+                builder: (context, constraint) {
+                  int kolom;
+                  if (constraint.maxWidth < 600) {
+                    kolom = 1;
+                  } else if (constraint.maxWidth < 900) {
+                    kolom = 2;
+                  } else {
+                    kolom = 3;
+                  }
+                  return GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: kolom,
+                      childAspectRatio: 3,
+                    ),
+                    itemCount: hasilCari.length,
+                    itemBuilder: (context, index) {
+                      final barang = hasilCari[index];
+                      return BarangCard(
+                        nama: barang['nama'],
+                        hargaAnggota: barang['harga_anggota'],
+                        stok: barang['stok'],
+                        kategori: barang['kategori'],
+                      );
+                    },
                   );
                 },
               ),
