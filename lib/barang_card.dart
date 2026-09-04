@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'keranjang_item.dart';
 
-class BarangCard extends StatefulWidget {
+class BarangCard extends StatelessWidget {
   final String nama;
   final int hargaAnggota;
   final int stok;
@@ -18,32 +18,24 @@ class BarangCard extends StatefulWidget {
   });
 
   @override
-  State<BarangCard> createState() => _BarangCardState();
-}
-
-class _BarangCardState extends State<BarangCard> {
-  @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(8),
-      color: widget.sorot ? Colors.yellow[50] : null,
+      color: sorot ? Colors.yellow[50] : null,
       child: ListTile(
         leading: const Icon(Icons.edit),
-        title: Text(widget.nama),
+        title: Text(nama, maxLines: 1, overflow: TextOverflow.ellipsis),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Angggota Rp' + widget.hargaAnggota.toString()),
+            Text('Angggota Rp$hargaAnggota'),
             Text(
-              widget.kategori,
+              kategori,
               style: const TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],
         ),
-        trailing: KeranjangItem(
-          stok: widget.stok,
-          hargaAnggota: widget.hargaAnggota,
-        ),
+        trailing: KeranjangItem(stok: stok, hargaAnggota: hargaAnggota),
         isThreeLine: true,
       ),
     );

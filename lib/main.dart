@@ -24,7 +24,7 @@ class MyApp extends StatefulWidget {
 
   final List<Map<String, dynamic>> daftarBarang = [
     {
-      'nama': 'Buku Tulis',
+      'nama': 'Buku Tulis Bergaris 58 Lembar Sampul Tebal',
       'kategori': 'ATK',
       'harga_anggota': 3000,
       'harga_umum': 3500,
@@ -66,7 +66,8 @@ class MyApp extends StatefulWidget {
       'stok': 15,
     },
     {
-      'nama': 'Penggaris',
+      'nama':
+          'Penggarisssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
       'kategori': 'ATK',
       'harga_anggota': 2000,
       'harga_umum': 2500,
@@ -130,8 +131,7 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: [
             Text(
-              'lebar layar: ' +
-                  MediaQuery.of(context).size.width.toStringAsFixed(0),
+              'lebar layar: ${MediaQuery.of(context).size.width.toStringAsFixed(0)}',
             ),
             TextField(
               controller: _controller,
